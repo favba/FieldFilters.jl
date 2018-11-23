@@ -2,7 +2,7 @@ module FieldFilters
 
 using FluidFields, QuadGK
 
-export GaussianFilter, BoxFilter, SpectralCutoff, EyinkFilter
+export GaussianFilter, BoxFilter, SpectralCutoffFilter, EyinkFilter, filterfield, filterfield!
 
 abstract type AbstractFilter end
 
@@ -24,11 +24,11 @@ end
     return ifelse(k2 == zero(k2), oneunit(k2), sin(aux)/aux)
 end
 
-struct SpectralCutoff{T<:Real} <: AbstractFilter
+struct SpectralCutoffFilter{T<:Real} <: AbstractFilter
     Δ²::T
 end
 
-@inline function (s::SpectralCutoff)(k2::Real)
+@inline function (s::SpectralCutoffFilter)(k2::Real)
     aux = inv(s.Δ²)*π^2
     return k2 < aux 
 end
@@ -49,8 +49,28 @@ function G(k)
 end
 
 @inline function (e::EyinkFilter)(k2::Real)
-    kratio = @fastmath sqrt(π*π/(e.Δ²*k2))
+    kratio = @fastmath sqrt((e.Δ²*k2)/(π*π))/2
     return G(kratio)
 end
+
+function filterfield!(out::AbstractArray{T,3},inp::AbstractArray{T,3},filt::A,kx::AbstractVector,ky::AbstractVector,kz::AbstractVector) where {T,A<:AbstractFilter}
+    Threads.@threads for k in eachindex(kz)
+        @inbounds begin
+        kz2 = kz[k]^2
+        for j in eachindex(ky)
+            ky2 = muladd(ky[j],ky[j], kz2)
+            for i in eachindex(kx)
+                k2 = muladd(kx[i],kx[i],ky2)
+                out[i,j,k] = filt(k2)*inp[i,j,k]
+            end
+        end
+        end
+    end
+end
+
+filterfield!(out::AbstractArray{T,3},inp::AbstractField,fil::AbstractFilter) where {T} = filterfield!(out,inp,fil,inp.kx,inp.ky,inp.kz)
+filterfield!(field::AbstractField,fil::AbstractFilter) = filterfield!(field,field,fil)
+
+filterfield(inp::AbstractField,fil::AbstractFilter) = filterfield!(similar(inp),inp,fil)
 
 end # module
