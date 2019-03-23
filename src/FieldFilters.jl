@@ -2,7 +2,7 @@ module FieldFilters
 
 using FluidFields, QuadGK
 
-export GaussianFilter, BoxFilter, SpectralCutoffFilter, EyinkFilter, filterfield, filterfield!
+export GaussianFilter, BoxFilter, SpectralCutoffFilter, EyinkFilter, SpectralBarrier, filterfield, filterfield!
 
 abstract type AbstractFilter end
 
@@ -52,6 +52,21 @@ end
     kratio = @fastmath sqrt((e.Δ²*k2)/(π*π))/2
     return G(kratio)
 end
+
+#@inline esp(k,i,p) = abs(k) <= i ? 1.0 : abs(k) < p ? exp(-((abs(k) - i)^2)/((p)^2 - k^2)) : 0.0
+
+@inline esp(k,i,p,::Val{n}) where n = abs(k) <= i ? 1.0 : abs(k) < p ? exp(-((abs(k) - i)^2)/((p)^n - abs(k)^n)) : 0.
+
+struct SpectralBarrier{T,F} <: AbstractFilter
+    Δ²::T
+    func::F
+end
+
+@inline function (s::SpectralBarrier{T,F})(k2::Real) where {T,F}
+    return s.func(@fastmath(sqrt(k2)))
+end
+
+SpectralBarrier(Δ2) = (l = π/sqrt(Δ2); SpectralBarrier(Δ2,x->esp(x,l,2*l,Val{1/4}())))
 
 function filterfield!(out::AbstractArray{T,3},inp::AbstractArray{T,3},filt::A,kx::AbstractVector,ky::AbstractVector,kz::AbstractVector) where {T,A<:AbstractFilter}
     Threads.@threads for k in eachindex(kz)
