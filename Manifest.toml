@@ -1,3 +1,5 @@
+# This file is machine-generated - editing it directly is not advised
+
 [[AbstractFFTs]]
 deps = ["Compat", "LinearAlgebra"]
 git-tree-sha1 = "8d59c3b1463b5e0ad05a3698167f85fac90e184d"
@@ -15,21 +17,21 @@ version = "0.5.3"
 
 [[Compat]]
 deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "ec61a16eed883ad0cfa002d7489b3ce6d039bb9a"
+git-tree-sha1 = "195a3ffcb8b0762684b6821de18f83a16455c6ea"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "1.4.0"
+version = "2.0.0"
 
 [[Conda]]
 deps = ["Compat", "JSON", "VersionParsing"]
-git-tree-sha1 = "fb86fe40cb5b35990e368709bfdc1b46dbb99dac"
+git-tree-sha1 = "b625d802587c2150c279a40a646fba63f9bd8187"
 uuid = "8f4d0f93-b110-5947-807f-2305c1781a2d"
-version = "1.1.1"
+version = "1.2.0"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections", "Random", "Serialization", "Test"]
-git-tree-sha1 = "8fc6e166e24fda04b2b648d4260cdad241788c54"
+git-tree-sha1 = "ca971f03e146cf144a9e2f2ce59674f5bf0e8038"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.14.0"
+version = "0.15.0"
 
 [[Dates]]
 deps = ["Printf"]
@@ -40,7 +42,7 @@ deps = ["Mmap"]
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 
 [[Distributed]]
-deps = ["LinearAlgebra", "Random", "Serialization", "Sockets"]
+deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[FFTW]]
@@ -51,7 +53,7 @@ version = "0.2.4"
 
 [[FluidFields]]
 deps = ["FFTW", "FluidTensors", "InplaceRealFFT", "LinearAlgebra"]
-git-tree-sha1 = "1fb0492eb2bffb5d418136364c0b2431e52f63e6"
+git-tree-sha1 = "5538e795a9c884784808107b1cd669de457253e0"
 repo-rev = "master"
 repo-url = "https://github.com/favba/FluidFields.jl.git"
 uuid = "390a1fbe-c11f-11e8-0e71-0f874e7fb199"
@@ -66,15 +68,15 @@ uuid = "9c362f20-be79-11e8-0b20-338637273ba1"
 version = "0.1.0"
 
 [[InplaceRealFFT]]
-deps = ["AbstractFFTs", "FFTW", "LinearAlgebra", "Test"]
-git-tree-sha1 = "489461d3bdb58c3ba7d13f5144d5cdbba37aa4ae"
+deps = ["AbstractFFTs", "FFTW", "LinearAlgebra"]
+git-tree-sha1 = "be8d74543bb1436bf7d623ff9f4e5faffa633438"
 repo-rev = "master"
 repo-url = "https://github.com/favba/InplaceRealFFT.jl.git"
-uuid = "de009ea1-38bd-5372-95d3-1fadf153d626"
-version = "0.0.0"
+uuid = "370c16e2-4e51-11e9-3235-e391f9c4d929"
+version = "0.1.0"
 
 [[InteractiveUtils]]
-deps = ["LinearAlgebra", "Markdown"]
+deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[JSON]]
@@ -163,7 +165,7 @@ deps = ["Distributed", "InteractiveUtils", "Logging", "Random"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[UUIDs]]
-deps = ["Random"]
+deps = ["Random", "SHA"]
 uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [[Unicode]]
